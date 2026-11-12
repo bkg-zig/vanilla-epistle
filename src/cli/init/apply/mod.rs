@@ -213,12 +213,18 @@ pub enum ApplyError {
 	HostBinaryInvalid(String),
 	/// A key under data_dir could not be moved to the directory beside it.
 	KeyMove(String),
+	/// An API key labelled `panel` exists with a reach other than the
+	/// panel's, so its secret is not replaced. Carries the operator-facing
+	/// message, which names the settings and never a secret.
+	PanelKey(String),
 }
 
 impl std::fmt::Display for ApplyError {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {
-			ApplyError::DatabaseVolume(message) => f.write_str(message),
+			ApplyError::DatabaseVolume(message) | ApplyError::PanelKey(message) => {
+				f.write_str(message)
+			}
 			ApplyError::FirstAccount(why) => write!(f, "first account: {why}"),
 			ApplyError::KeysDir(path, error) => write!(
 				f,
@@ -485,6 +491,19 @@ pub fn apply(answers: &Answers) -> ApplyOutcome {
 		&& let Err(error) = super::compose::ensure_db_password(&answers.data_dir, &mut report)
 			.and_then(|_| super::compose::ensure_db_admin_password(&answers.data_dir, &mut report))
 	{
+		return ApplyOutcome {
+			report,
+			error: Some(error),
+		};
+	}
+	// The panel's API key goes in `data_dir/api_keys.toml` and its session
+	// secret beside data_dir, both before the compose file that mounts them.
+	if answers.services.panel_image.is_some()
+		&& let Err(error) = super::compose::panel_secrets::ensure(
+			&answers.data_dir,
+			super::compose::panel_secrets::now(),
+			&mut report,
+		) {
 		return ApplyOutcome {
 			report,
 			error: Some(error),
