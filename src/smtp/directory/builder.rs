@@ -145,4 +145,17 @@ impl Directory {
 		self.password_hashes = hashes.into_iter().collect();
 		self
 	}
+
+	/// Attach accounts that may send as any address in their catch-all domains.
+	/// Account names are lowercased.
+	pub fn with_catch_all_send_as(
+		mut self,
+		accounts: impl IntoIterator<Item = String>,
+	) -> Self {
+		self.catch_all_send_as = accounts
+			.into_iter()
+			.map(|name| name.to_ascii_lowercase())
+			.collect();
+		self
+	}
 }

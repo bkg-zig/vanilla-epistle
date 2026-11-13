@@ -264,3 +264,27 @@ pub(super) fn forwards<'a>(
 				.map(|account| (account.name.clone(), (account.forward.clone(), true))),
 		)
 }
+
+/// Accounts with catch_all_send_as enabled: static accounts first, then
+/// dynamic ones.
+pub(super) fn catch_all_send_as<'a>(
+	static_accounts: &'a [Account],
+	dynamic: &'a [DynamicAccount],
+) -> impl Iterator<Item = String> + 'a {
+	static_accounts
+		.iter()
+		.filter_map(|account| {
+			if account.catch_all_send_as.unwrap_or(false) {
+				Some(account.name.clone())
+			} else {
+				None
+			}
+		})
+		.chain(dynamic.iter().filter_map(|account| {
+			if account.catch_all_send_as.unwrap_or(false) {
+				Some(account.name.clone())
+			} else {
+				None
+			}
+		}))
+}

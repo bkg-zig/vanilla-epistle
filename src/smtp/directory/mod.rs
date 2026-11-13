@@ -143,6 +143,10 @@ pub struct Directory {
 	/// Disabled masks are not present here, so they reject exactly like an
 	/// unknown user (the directory never reveals that one once existed).
 	masked_by_address: HashMap<String, String>,
+	/// Accounts that may send as any address in their catch-all domains.
+	/// When an account has `catch_all_send_as = true`, it owns every address
+	/// in its catch-all domains that is not owned by another account or alias.
+	catch_all_send_as: HashSet<String>,
 	/// Masked addresses that are switched off (lowercased). Only
 	/// [`Directory::is_paused`] reads them: resolution treats them as unknown.
 	masked_paused: std::collections::HashSet<String>,
@@ -231,6 +235,7 @@ impl Directory {
 			ldap: None,
 			masked_by_address: HashMap::new(),
 			masked_paused: std::collections::HashSet::new(),
+			catch_all_send_as: HashSet::new(),
 			metrics: None,
 			allowed_protocols: HashMap::new(),
 			ban_store: None,
@@ -388,6 +393,16 @@ impl Directory {
 		// unknown address does.
 		if let Some(owner) = self.masked_by_address.get(&key) {
 			return owner == account;
+		}
+		// Catch-all send-as: if the account has catch_all_send_as enabled and
+		// this domain is one of its catch-all domains, it owns the address
+		// unless another account or alias already owns it.
+		if self.catch_all_send_as.contains(&account.to_ascii_lowercase()) {
+			if let Some(catch_all_account) = self.catch_all.get(address.domain()) {
+				if catch_all_account == account {
+					return true;
+				}
+			}
 		}
 		false
 	}

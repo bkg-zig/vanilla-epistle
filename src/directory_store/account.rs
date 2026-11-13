@@ -28,8 +28,8 @@ pub struct DynamicAccount {
 	/// Base32 TOTP secret for two-factor auth (RFC 6238). Absent disables 2FA.
 	#[serde(default)]
 	pub totp_secret: Option<String>,
-	/// Account is administratively disabled (kept on disk; never
-	/// authenticates). Set by SCIM `active: false` and other paths that need
+	/// Account is administratively disabled (kept on disk; cannot
+	/// authenticate). Set by SCIM `active: false` and other paths that need
 	/// to suspend an account without removing its mailbox.
 	#[serde(default)]
 	pub disabled: bool,
@@ -85,6 +85,10 @@ pub struct DynamicAccount {
 	/// [`DynamicAccount::send`].
 	#[serde(default, skip_serializing_if = "Option::is_none")]
 	pub receive: Option<bool>,
+	/// Whether the account may send as any address of its catch-all domains.
+	/// Same encoding as [`Account::catch_all_send_as`].
+	#[serde(default, skip_serializing_if = "Option::is_none")]
+	pub catch_all_send_as: Option<bool>,
 }
 
 impl DynamicAccount {
@@ -134,6 +138,7 @@ impl DynamicAccount {
 			save_sent: None,
 			send: None,
 			receive: None,
+			catch_all_send_as: None,
 		})
 	}
 }

@@ -325,6 +325,7 @@ impl AccountStore {
 		// so the saver falls back to the default ("on").
 		let save_sent = build::save_sent(&dynamic);
 		let forwards = build::forwards(&self.static_accounts, &dynamic);
+		let catch_all_send_as = build::catch_all_send_as(&self.static_accounts, &dynamic);
 		let disabled_lock = self.aliases_disabled.read().expect("aliases lock");
 		let aliases = self.aliases.iter().map(|alias| {
 			(
@@ -373,6 +374,7 @@ impl AccountStore {
 			.with_ldap(self.ldap_auth.clone())
 			.with_masked(masked)
 			.with_masked_paused(self.masked.read().expect("masked lock").paused())
+			.with_catch_all_send_as(catch_all_send_as)
 			.with_allowed_protocols(allowed_protocols);
 		if let Some(metrics) = self.metrics.clone() {
 			dir = dir.with_metrics(metrics);
