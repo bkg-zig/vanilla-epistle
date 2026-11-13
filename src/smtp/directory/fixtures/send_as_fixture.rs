@@ -96,8 +96,8 @@ pub(crate) const CASES: &[Case] = &[
 	("alice", "name.surname+news@example.org", false),
 	("alice", "alice+news@example.org", false),
 	("bob", "alice+news@example.org", false),
-	// The catch-all receives every unknown local part and may send as none.
-	("carol", "unknown@example.org", false),
+	// The catch-all receives and may send as otherwise-unclaimed local parts.
+	("carol", "unknown@example.org", true),
 	("alice", "unknown@example.org", false),
 	// A domain alias delivers like its target but is not a sending domain.
 	("alice", "alice@alias.example.org", false),
