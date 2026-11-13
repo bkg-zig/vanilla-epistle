@@ -171,6 +171,7 @@ fn list_state(dir: &std::path::Path) -> crate::api::ApiState {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	}];
 	let store = std::sync::Arc::new(
 		crate::directory_store::AccountStore::open(

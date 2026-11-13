@@ -23,6 +23,7 @@ fn static_account(name: &str, address: &str, password: Option<&str>) -> Account 
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	}
 }
 

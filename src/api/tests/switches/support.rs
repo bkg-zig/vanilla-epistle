@@ -30,6 +30,7 @@ fn account(name: &str, send: Option<bool>) -> crate::config::Account {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	}
 }
 

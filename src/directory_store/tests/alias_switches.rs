@@ -80,6 +80,7 @@ fn disabled_alias_falls_through_to_catch_all_in_account_store() {
 			forward_keep_local: true,
 			display_name: None,
 			allowed_protocols: None,
+			catch_all_send_as: None,
 		}],
 	)
 	.expect("open store");

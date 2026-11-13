@@ -29,6 +29,7 @@ fn quota_with(dir: &std::path::Path, quota_bytes: Option<u64>) -> Quota {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = crate::directory_store::AccountStore::open(
 		dir,

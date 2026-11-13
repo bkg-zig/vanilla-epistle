@@ -71,6 +71,7 @@ pub fn test_app_with_quota(dir: &std::path::Path, quota_bytes: Option<u64>) -> R
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = crate::directory_store::AccountStore::open(
 		dir,

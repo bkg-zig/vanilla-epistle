@@ -50,6 +50,7 @@ pub(in super::super) fn push_state(dir: &std::path::Path) -> Router {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let domains = vec!["example.org".to_string()];
 	let store = std::sync::Arc::new(

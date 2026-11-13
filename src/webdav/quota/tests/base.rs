@@ -18,6 +18,7 @@ fn app_with_quota(dir: &std::path::Path, quota_bytes: Option<u64>) -> Router {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = crate::directory_store::AccountStore::open(
 		dir,
@@ -52,6 +53,7 @@ fn state_for(dir: &std::path::Path, quota_bytes: Option<u64>) -> crate::webdav::
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = crate::directory_store::AccountStore::open(
 		dir,

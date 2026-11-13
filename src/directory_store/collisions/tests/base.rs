@@ -36,6 +36,7 @@ fn store(dir: &std::path::Path) -> AccountStore {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let team = crate::config::Alias {
 		address: "team@example.org".to_string(),

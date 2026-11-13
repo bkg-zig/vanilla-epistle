@@ -37,6 +37,7 @@ fn state(dir: &std::path::Path, token: &str) -> ApiState {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	})
 	.collect();
 	let domains = vec!["example.org".into(), "other.org".into()];

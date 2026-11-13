@@ -18,6 +18,7 @@ pub(super) fn static_account() -> Account {
 		forward_keep_local: true,
 		display_name: None,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	}
 }
 

@@ -21,6 +21,7 @@ fn state(dir: &std::path::Path) -> ApiState {
 		forward_keep_local: true,
 		allowed_protocols: None,
 		display_name: None,
+		catch_all_send_as: None,
 	};
 	let store = std::sync::Arc::new(
 		crate::directory_store::AccountStore::open(

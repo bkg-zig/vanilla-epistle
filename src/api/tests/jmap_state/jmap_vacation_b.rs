@@ -73,6 +73,7 @@ fn ann_only(dir: &std::path::Path) -> (Router, String) {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let domains = vec!["a.example".to_string(), "b.example".to_string()];
 	let store = std::sync::Arc::new(

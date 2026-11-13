@@ -61,6 +61,7 @@ fn test_app_with_trusted_and_ban_store(
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = std::sync::Arc::new(FakeBanStore::new(BanPolicy::default()));
 	let mut account_store = crate::directory_store::AccountStore::open(

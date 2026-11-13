@@ -27,6 +27,7 @@ fn test_state_with_cap(dir: &std::path::Path, limit: Option<u32>) -> ApiState {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	}];
 	let store = std::sync::Arc::new(
 		crate::directory_store::AccountStore::open(

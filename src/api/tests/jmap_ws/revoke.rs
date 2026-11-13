@@ -56,6 +56,7 @@ pub(super) fn ws_state(
 				forward: Vec::new(),
 				forward_keep_local: true,
 				allowed_protocols: None,
+				catch_all_send_as: None,
 			}],
 		)
 		.expect("open store"),
@@ -76,6 +77,7 @@ pub(super) fn ws_state(
 			forward: Vec::new(),
 			catch_all: Vec::new(),
 			save_sent: None,
+			catch_all_send_as: None,
 		})
 		.expect("add carol");
 	let state = ApiState::new(

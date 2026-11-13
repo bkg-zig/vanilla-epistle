@@ -26,6 +26,7 @@ fn static_allowed_protocols_propagates_to_directory() {
 		forward_keep_local: true,
 		display_name: None,
 		allowed_protocols: Some(vec![Protocol::Api]),
+		catch_all_send_as: None,
 	};
 	let store = AccountStore::open(
 		dir.path(),

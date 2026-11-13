@@ -238,6 +238,7 @@ fn static_accounts_are_not_rewritten_by_the_upgrade() {
 			catch_all: Vec::new(),
 			forward: Vec::new(),
 			forward_keep_local: false,
+			catch_all_send_as: None,
 		}],
 	)
 	.expect("store open")

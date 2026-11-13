@@ -30,6 +30,7 @@ fn seed_dynamic_account(dir: &std::path::Path) {
 		catch_all: Vec::new(),
 		display_name: None,
 		save_sent: None,
+		catch_all_send_as: None,
 	};
 	store.add(alice).expect("add alice");
 }

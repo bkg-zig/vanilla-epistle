@@ -57,6 +57,7 @@ fn show_dynamic_reports_forwards_catch_all_and_two_factor() {
 			catch_all: Vec::new(),
 			display_name: None,
 			save_sent: None,
+			catch_all_send_as: None,
 		})
 		.expect("add account");
 	store
@@ -104,6 +105,7 @@ fn show_dynamic_two_factor_yes_when_totp_enrolled() {
 			catch_all: Vec::new(),
 			display_name: None,
 			save_sent: None,
+			catch_all_send_as: None,
 		})
 		.expect("add account");
 

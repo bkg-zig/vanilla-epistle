@@ -51,6 +51,7 @@ pub(in crate::cli) fn build() -> Harness {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = AccountStore::open(
 		dir.path(),

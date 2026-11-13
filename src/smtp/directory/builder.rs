@@ -150,11 +150,11 @@ impl Directory {
 	/// Account names are lowercased.
 	pub fn with_catch_all_send_as(
 		mut self,
-		accounts: impl IntoIterator<Item = String>,
+		accounts: impl IntoIterator<Item = impl AsRef<str>>,
 	) -> Self {
 		self.catch_all_send_as = accounts
 			.into_iter()
-			.map(|name| name.to_ascii_lowercase())
+			.map(|name| name.as_ref().to_ascii_lowercase())
 			.collect();
 		self
 	}

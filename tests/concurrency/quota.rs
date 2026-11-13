@@ -313,6 +313,7 @@ async fn incoming_submission_and_rest_share_final_copy_admission() {
 				forward_keep_local: true,
 				allowed_protocols: None,
 				display_name: None,
+				catch_all_send_as: None,
 			}],
 		)
 		.expect("account store"),

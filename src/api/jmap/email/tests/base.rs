@@ -50,6 +50,7 @@ fn state_with_queue(
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	}];
 	let store = Arc::new(
 		crate::directory_store::AccountStore::open(

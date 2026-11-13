@@ -32,6 +32,7 @@ pub(in super::super::super) fn state_with_two_accounts(
 			forward: Vec::new(),
 			forward_keep_local: true,
 			allowed_protocols: None,
+			catch_all_send_as: None,
 		},
 		crate::config::Account {
 			send: None,
@@ -45,6 +46,7 @@ pub(in super::super::super) fn state_with_two_accounts(
 			forward: Vec::new(),
 			forward_keep_local: true,
 			allowed_protocols: None,
+			catch_all_send_as: None,
 		},
 	];
 	let store = Arc::new(

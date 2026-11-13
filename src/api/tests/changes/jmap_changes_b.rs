@@ -178,6 +178,7 @@ async fn jmap_email_changes_for_a_foreign_account_is_account_not_found() {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = std::sync::Arc::new(
 		crate::directory_store::AccountStore::open(

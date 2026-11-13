@@ -24,6 +24,7 @@ async fn limit_returns_409_not_429() {
 				forward: Vec::new(),
 				forward_keep_local: true,
 				allowed_protocols: None,
+				catch_all_send_as: None,
 			}],
 		)
 		.expect("store")

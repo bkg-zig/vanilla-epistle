@@ -16,6 +16,7 @@ fn store(dir: &std::path::Path) -> AccountStore {
 		forward_keep_local: true,
 		allowed_protocols: None,
 		display_name: Some("Carol Static".to_string()),
+		catch_all_send_as: None,
 	};
 	AccountStore::open(
 		dir,

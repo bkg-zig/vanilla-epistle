@@ -44,6 +44,7 @@ fn state_with_carol(dir: &std::path::Path) -> ApiState {
 			forward: Vec::new(),
 			catch_all: Vec::new(),
 			save_sent: None,
+			catch_all_send_as: None,
 		})
 		.expect("add carol");
 	state

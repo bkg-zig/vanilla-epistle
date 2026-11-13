@@ -52,6 +52,7 @@ async fn aggregate_quota_blocks_an_over_cap_upload() {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = std::sync::Arc::new(
 		crate::directory_store::AccountStore::open(
@@ -130,6 +131,7 @@ async fn aggregate_rate_blocks_a_second_send_within_the_window() {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = std::sync::Arc::new(
 		crate::directory_store::AccountStore::open(
@@ -219,6 +221,7 @@ async fn aggregate_rate_charges_per_recipient() {
 		forward: Vec::new(),
 		forward_keep_local: true,
 		allowed_protocols: None,
+		catch_all_send_as: None,
 	};
 	let store = std::sync::Arc::new(
 		crate::directory_store::AccountStore::open(

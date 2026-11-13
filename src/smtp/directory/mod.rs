@@ -397,7 +397,10 @@ impl Directory {
 		// Catch-all send-as: if the account has catch_all_send_as enabled and
 		// this domain is one of its catch-all domains, it owns the address
 		// unless another account or alias already owns it.
-		if self.catch_all_send_as.contains(&account.to_ascii_lowercase()) {
+		if self
+			.catch_all_send_as
+			.contains(&account.to_ascii_lowercase())
+		{
 			if let Some(catch_all_account) = self.catch_all.get(address.domain()) {
 				if catch_all_account == account {
 					return true;
