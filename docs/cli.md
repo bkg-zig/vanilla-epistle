@@ -41,6 +41,7 @@ forward). Policy refusals exited `2` before they had their own code.
 | `warmup` | `status`, `plan`, `start`, `enable`, `disable`, `pause`, `resume`, `set`, `reset` | |
 | `domain` | `list`, `show`, `add`, `remove`, `set`, `disable`, `enable`, `alias add\|remove` | |
 | `db` | `upgrade`, `status` | |
+| `panel` | `admin-id` | |
 | `evidence` | `verify`, `export`, `check`, `key show\|rotate`, `policy show\|set`, `timestamp show\|enable\|disable`, `clock accept`, `acknowledge`, `abandon` | |
 | `learning` | `status`, `enable`, `disable`, `reset` | |
 | `masked`, `ban`, `queue`, `alias`, `limits`, `relay`, `service`, `dkim`, `tls` | see each section below | |
@@ -864,6 +865,30 @@ Lists every kind of secret and credential the server holds, so that nobody has t
 - `not supported yet`: `epistle` cannot do it yet. The row links the issue and says what to do meanwhile. Today that is the storage key (re-encrypting the existing mail under a new key), the mass reset of account passwords and second factors, and the TOTP seeds, which `accounts.toml` keeps in the clear while `[storage]` encryption is off.
 
 The list is a registry in the code, and a test fails the build when a secret field is added to the configuration without an entry in it, so a new secret cannot be left out of the procedure. `--dry-run` changes nothing and reads no configuration, so it works on a server whose configuration does not load. It is the only mode so far; without it the command refuses and exits 3. `--all` is required. `--json` prints one object with an `entries` array.
+
+## Web panel (`epistle panel`)
+
+```sh
+epistle panel admin-id [--json]
+```
+
+Shows the admin id of the web panel: the `{id}` of its admin area, served at
+`/app/{id}`. `init` and `stack update` generate it once, when the stack runs the
+panel, and keep it from then on (see "The panel's key" in `docs/api.md`). The id
+is alone on stdout; the path `/app/<id>`, to append to the address the panel is
+served at, and a reminder go to stderr. With `--json` stdout is one object with
+`admin_id` and `path`, and stderr stays empty.
+
+The id is not a cryptographic secret, since the session and the admin role are
+the barrier, but it is not public either: this is the one command that prints
+it. It is absent from every plan, report and `--json` output of the other
+commands, from `epistle status` and from the logs. Do not post it, link it from
+a public page or paste it into a ticket.
+
+With no id yet (the panel is not installed or the stack was not updated since),
+the command exits 2 and says how to get one. A file at the id's place that holds
+anything but a lower-case UUID v4 is an error that names the file and not its
+content.
 
 ## Domains (`epistle domain`)
 

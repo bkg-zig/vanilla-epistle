@@ -176,6 +176,8 @@ pub fn plan(answers: &Answers) -> Result<Plan, ApplyError> {
 			key: decision.key.to_string(),
 			session_secret: compose::panel_secrets::session_secret_path(&answers.data_dir),
 			session: decision.session.to_string(),
+			admin_id: compose::panel_secrets::admin_id_path(&answers.data_dir),
+			admin: decision.admin_id.to_string(),
 		});
 	}
 	steps.push(PlanStep::Config {

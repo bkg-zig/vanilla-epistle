@@ -66,6 +66,7 @@ pub(super) fn guard(command: &Command) -> Result<Option<FileLock>, String> {
 		| Command::Autoconfig { .. }
 		| Command::Autodiscover { .. }
 		| Command::Delivery { .. }
+		| Command::Panel { .. }
 		| Command::Evidence { .. }
 		| Command::Ban { .. }
 		| Command::TokenHash { .. }
