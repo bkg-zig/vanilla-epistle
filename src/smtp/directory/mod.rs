@@ -389,7 +389,14 @@ impl Directory {
 		if let Some(owner) = self.masked_by_address.get(&key) {
 			return owner == account;
 		}
-		false
+		// A catch-all account is also the sending identity for otherwise
+		// unclaimed addresses in its domain. This is the deliberate virtual-
+		// identity mode used by OpenAgentEmail: many logical agent addresses
+		// share one physical mailbox. Explicit account owners and aliases above
+		// remain authoritative and cannot be bypassed by the catch-all.
+		self.catch_all
+			.get(address.domain())
+			.is_some_and(|owner| owner == account)
 	}
 }
 
