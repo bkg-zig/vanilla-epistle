@@ -5,10 +5,12 @@
 //! The rule being pinned (`Directory::owns_address`): an account may send as
 //! an address only when it is stored for that account, or when it is an
 //! enabled multi-target alias the account may send as (a member, or a listed
-//! sender when the alias names senders), or an enabled mask it owns. Case
-//! never matters. Everything that merely *delivers* to the account is not
-//! enough: a `+tag` sub-address, the catch-all and a domain alias resolve
-//! for delivery but are refused for sending.
+//! sender when the alias names senders), or an enabled mask it owns.
+//! When `catch_all_send_as` is enabled, the account may send as any address
+//! in its catch-all domains that is not owned by another account or alias.
+//! Case never matters. Everything that merely *delivers* to the account is not
+//! enough: a `+tag` sub-address and a domain alias resolve for delivery but
+//! are refused for sending.
 
 use crate::smtp::directory::{AliasSpec, Directory};
 
@@ -17,7 +19,7 @@ use crate::smtp::directory::{AliasSpec, Directory};
 pub(crate) type Case = (&'static str, &'static str, bool);
 
 /// Two hosted domains, `alias.example.org` as a domain alias of
-/// `example.org`, `carol` as the catch-all of `example.org`.
+/// `example.org`, `carol` as the catch-all of `example.org` with catch_all_send_as.
 pub(crate) fn directory() -> Directory {
 	Directory::new(
 		["example.org".to_string(), "other.example".to_string()],
@@ -49,6 +51,7 @@ pub(crate) fn directory() -> Directory {
 		),
 	])
 	.with_catch_all([("example.org".to_string(), "carol".to_string())])
+	.with_catch_all_send_as(["carol"])
 	.with_domain_aliases([("alias.example.org".to_string(), "example.org".to_string())])
 }
 
@@ -96,10 +99,17 @@ pub(crate) const CASES: &[Case] = &[
 	("alice", "name.surname+news@example.org", false),
 	("alice", "alice+news@example.org", false),
 	("bob", "alice+news@example.org", false),
-	// The catch-all receives every unknown local part and may send as none.
-	("carol", "unknown@example.org", false),
+	// The catch-all account with catch_all_send_as enabled may send as
+	// unknown addresses in its catch-all domain.
+	("carol", "unknown@example.org", true),
+	("carol", "ANYTHING@example.org", true),
+	("carol", "test.user@example.org", true),
+	// Other accounts cannot send as catch-all addresses.
 	("alice", "unknown@example.org", false),
-	// A domain alias delivers like its target but is not a sending domain.
+	("bob", "unknown@example.org", false),
+	// A domain alias delivers like its target but is not a sending domain,
+	// even for catch_all_send_as.
 	("alice", "alice@alias.example.org", false),
 	("alice", "name.surname@alias.example.org", false),
+	("carol", "unknown@alias.example.org", false),
 ];
