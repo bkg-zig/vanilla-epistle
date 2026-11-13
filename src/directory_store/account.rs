@@ -86,7 +86,8 @@ pub struct DynamicAccount {
 	#[serde(default, skip_serializing_if = "Option::is_none")]
 	pub receive: Option<bool>,
 	/// Whether the account may send as any address of its catch-all domains.
-	/// Same encoding as [`Account::catch_all_send_as`].
+	/// Absent and `false` both disable it; same encoding as
+	/// [`Account::catch_all_send_as`].
 	#[serde(default, skip_serializing_if = "Option::is_none")]
 	pub catch_all_send_as: Option<bool>,
 }

@@ -19,7 +19,9 @@ use crate::smtp::directory::{AliasSpec, Directory};
 pub(crate) type Case = (&'static str, &'static str, bool);
 
 /// Two hosted domains, `alias.example.org` as a domain alias of
-/// `example.org`, `carol` as the catch-all of `example.org` with catch_all_send_as.
+/// `example.org`, `carol` as the catch-all of `example.org` with
+/// `catch_all_send_as` enabled, and `bob` as the catch-all of
+/// `other.example` with the default (disabled).
 pub(crate) fn directory() -> Directory {
 	Directory::new(
 		["example.org".to_string(), "other.example".to_string()],
@@ -50,7 +52,10 @@ pub(crate) fn directory() -> Directory {
 			list(&["alice@example.org"], &[]),
 		),
 	])
-	.with_catch_all([("example.org".to_string(), "carol".to_string())])
+	.with_catch_all([
+		("example.org".to_string(), "carol".to_string()),
+		("other.example".to_string(), "bob".to_string()),
+	])
 	.with_catch_all_send_as(["carol"])
 	.with_domain_aliases([("alias.example.org".to_string(), "example.org".to_string())])
 }
@@ -104,6 +109,12 @@ pub(crate) const CASES: &[Case] = &[
 	("carol", "unknown@example.org", true),
 	("carol", "ANYTHING@example.org", true),
 	("carol", "test.user@example.org", true),
+	// Without the switch, a catch-all account cannot send as an unknown
+	// address in its own catch-all domain.
+	("bob", "unknown@other.example", false),
+	("bob", "test.user@other.example", false),
+	// The switch covers only the account's own catch-all domains.
+	("carol", "unknown@other.example", false),
 	// Other accounts cannot send as catch-all addresses.
 	("alice", "unknown@example.org", false),
 	("bob", "unknown@example.org", false),

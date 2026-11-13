@@ -58,8 +58,8 @@ pub struct Account {
 	#[serde(default)]
 	pub receive: Option<bool>,
 	/// Whether the account may send as any address of its catch-all domains.
-	/// Absent (the default) and `true` both mean "may send as any address";
-	/// `false` disables this. This allows an agent to send as any unknown
+	/// Absent (the default) and `false` both mean "may not send as any
+	/// address"; `true` allows an agent to send as any otherwise unclaimed
 	/// local part in a catch-all domain, not just its own addresses.
 	#[serde(default)]
 	pub catch_all_send_as: Option<bool>,

@@ -191,13 +191,17 @@ Configured SHA-256 comparisons and legacy argon2id verification are unchanged.
   `name.surname@example.org`, is an ordinary address), and an enabled alias
   or list it may send as: any member when the alias names no senders, only
   the named senders when it does. An alias in another served domain works the
-  same way. It does **not** own what only delivers to it: a `+tag` sub-address
-  of its own address, the unknown local parts a catch-all receives, or an
-  address on a domain alias (`alias.example.org`). Those are refused with
-  `553` at `MAIL FROM`, `550 5.7.1` at the `From` header, `forbiddenFrom` in
-  JMAP and `forbidden_from` in the API, as is any address of another account
-  or of another domain. Loosening any of them is a decision about spoofing,
-  not a fix. The table of cases lives in `src/smtp/directory/fixtures/send_as_fixture.rs`.
+  same way. With `catch_all_send_as = true` it also owns otherwise unclaimed
+  addresses in the domains where it is the catch-all, but never an address,
+  alias or mask held by another account. It does **not** own what only
+  delivers to it: a `+tag` sub-address of its own address, the unknown local
+  parts a catch-all receives without that switch, or an address on a domain
+  alias (`alias.example.org`). Those are refused with `553` at `MAIL FROM`,
+  `550 5.7.1` at the `From` header, `forbiddenFrom` in JMAP and
+  `forbidden_from` in the API, as is any address of another account or of
+  another domain. Loosening any of them is a decision about spoofing, not a
+  fix. The table of cases lives in
+  `src/smtp/directory/fixtures/send_as_fixture.rs`.
 - Every recipient is resolved against the directory before any network work; an
   empty directory rejects everything (fail-closed).
 - JMAP and `POST /api/v1/send` act for the **principal** the bearer carries,

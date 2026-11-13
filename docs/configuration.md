@@ -2041,6 +2041,7 @@ Addresses and domains here are used in lowercase (`config-check` names any writt
 | `addresses` | One or more addresses (each in a configured domain). |
 | `password_hash` | argon2id PHC string. Omit for receive-only. |
 | `catch_all` | Domains for which this account receives mail to unknown local users. |
+| `catch_all_send_as` | Whether this account may send as an otherwise unclaimed address in a domain where it is the catch-all. Default `false`. It never overrides an address, alias or mask owned by another account, and it does not extend to a domain alias. |
 | `quota_bytes` | Per-account mailbox quota (bytes). Overrides the domain/server default. `0` means no limit. |
 | `forward` | External addresses this account's mail is also forwarded to (SRS-rewritten; bounces and looping mail are never forwarded). Empty disables forwarding. Each target needs a domain with at least one dot. |
 | `forward_keep_local` | Keep the local copy when forwarding (default `true`). Set `false` for pure forwarding. |
